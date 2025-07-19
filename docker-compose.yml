@@ -1,17 +1,28 @@
-version: '3.8'
+version: '3.9'
 
 services:
   db:
     image: mysql:8
     container_name: mysql_sports
     restart: always
-    env_file: app/.env
+    env_file: .env
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
       - ./app/models/schema.sql:/docker-entrypoint-initdb.d/schema.sql
 
+  backend:
+    build: .
+    container_name: fastapi_backend
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+    env_file:
+      - .env
 
 
 volumes:
