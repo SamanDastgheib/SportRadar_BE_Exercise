@@ -1,8 +1,7 @@
-CREATE USER IF NOT EXISTS 'sportsuser'@'%' 
-  IDENTIFIED WITH mysql_native_password BY 'sportspass';
+INSERT INTO team (name)
+VALUES ('linz');
 
-GRANT ALL PRIVILEGES ON sportsdb.* TO 'sportsuser'@'%';
-FLUSH PRIVILEGES;
+use sportsdb; 
 
 CREATE TABLE IF NOT EXISTS sport (
   id INT AUTO_INCREMENT PRIMARY KEY,

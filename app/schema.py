@@ -23,6 +23,11 @@ class TeamCreate(TeamBase):
 
 class Team(TeamBase):
     id: int
-
     class Config:
         orm_mode = True
+
+
+class TeamUpdate(TeamBase):
+    pass
+
+

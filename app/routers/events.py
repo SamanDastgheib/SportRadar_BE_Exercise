@@ -22,3 +22,4 @@ def read_event(event_id: int, database: Session = Depends(get_db)):
 @router.post("/events", response_model=schema.Event)
 def create_event(event: schema.EventCreate, database: Session = Depends(get_db)):
     return crud.create_event(database, event)
+
