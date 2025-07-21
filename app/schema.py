@@ -15,7 +15,34 @@ class Event(EventBase):
     class Config:
         orm_mode = True
 
+class EventResult(BaseModel):
+    id : int
+    day : str
+    date : date
+    time : time
+    sport : str
+    team1 : str
+    team2 : str
+    class Config:
+        orm_mode = True
+    
+
 #---------------------------------------------
+
+class EventTeam(BaseModel):
+    event_id: int
+    team_id: int
+
+class EventTeamCreate(BaseModel):
+    event_id: int
+    team1_id: int
+    team2_id: int
+    class Config:
+        orm_mode = True
+
+
+#---------------------------------------------
+
 
 
 class TeamBase(BaseModel):
@@ -44,7 +71,7 @@ class Sport(SportBase):
     id: int
     class Config:
         orm_mode = True
-        
+
 class SportUpdate(SportBase):
     pass
 
