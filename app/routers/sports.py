@@ -13,7 +13,7 @@ def get_db():
     finally:
         database.close()
 
-@router.post("/sport")
+@router.post("/sport" , tags=["sport"])
 async def create_sport(sport: schema.SportCreate, db: Session = Depends(get_db)):
     if validationUtils.is_valid_name(sport.name) is False:
         raise HTTPException(status_code=400, detail="Sport name is required")
@@ -22,19 +22,19 @@ async def create_sport(sport: schema.SportCreate, db: Session = Depends(get_db))
         raise HTTPException(status_code=404, detail="Sport not found")
     return sport
 
-@router.get("/sports")
+@router.get("/sports", tags=["sport"])
 async def read_sports(db: Session = Depends(get_db)):
     sports = crud.get_sports(db)
     return sports
 
-@router.get("/sport/{sport_id}")
+@router.get("/sport/{sport_id}", tags=["sport"])
 async def read_sport(sport_id: int, db: Session = Depends(get_db)):
     sport = crud.get_sport(db, sport_id)
     if sport is None:
         raise HTTPException(status_code=404, detail="Sport not found")
     return sport        
 
-@router.patch("/sport/{sport_id}")
+@router.patch("/sport/{sport_id}", tags=["sport"])
 async def update_sport(sport_id: int, sport: schema.SportUpdate, db: Session = Depends(get_db)):
     if validationUtils.is_valid_name(sport.name) is False:
         raise HTTPException(status_code=400, detail="Sport name is required")
@@ -43,7 +43,7 @@ async def update_sport(sport_id: int, sport: schema.SportUpdate, db: Session = D
         raise HTTPException(status_code=404, detail="Sport not found")
     return sport
 
-@router.delete("/sport/{sport_id}")
+@router.delete("/sport/{sport_id}", tags=["sport"])
 async def delete_sport(sport_id: int, db: Session = Depends(get_db)):
     sport = crud.delete_sport(db, sport_id)
     if sport is None:

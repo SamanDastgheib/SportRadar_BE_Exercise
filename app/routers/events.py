@@ -18,7 +18,7 @@ def get_db():
     finally:
         database.close()
 
-@router.get("/eventResults/{event_id}", response_model=schema.EventResult)
+@router.get("/eventResults/{event_id}", response_model=schema.EventResult, tags=["Event"])
 def read_formated_events_by_id(event_id: int, database: Session = Depends(get_db)):
     events = crud.get_eventResutlsWithId(database, event_id)
     logger.info(f"Events found: {events}")
@@ -28,21 +28,21 @@ def read_formated_events_by_id(event_id: int, database: Session = Depends(get_db
 
     return result[0]
 
-@router.get("/eventResults", response_model=list[schema.EventResult])
+@router.get("/eventResults", response_model=list[schema.EventResult], tags=["Event"])
 def read_formated_events(database: Session = Depends(get_db)):
     events = crud.get_eventResutls(database)
     
     return validationUtils.merge_eventResults(events)
 
-@router.get("/events", response_model=list[schema.Event])
+@router.get("/events", response_model=list[schema.Event], tags=["Event"])
 def read_events(database: Session = Depends(get_db)):
     return crud.get_events(database)
 
-@router.get("/events/{event_id}", response_model=schema.Event)
+@router.get("/events/{event_id}", response_model=schema.Event, tags=["Event"])
 def read_event(event_id: int, database: Session = Depends(get_db)):
     return crud.get_event_by_id(database, event_id)
 
-@router.post("/events", response_model=schema.Event)
+@router.post("/events", response_model=schema.Event, tags=["Event"])
 def create_event(event: schema.EventCreate, database: Session = Depends(get_db)):
     event = crud.create_event(database, event)
     if event is None:

@@ -13,24 +13,24 @@ def get_db():
     finally:
         database.close()
 
-@router.get("/teams",response_model=list[schema.Team])
+@router.get("/teams",response_model=list[schema.Team], tags=["teams"])
 def read_teams(database: Session = Depends(get_db)):
     return crud.get_teams(database)
 
-@router.get("/teams/{team_id}",response_model=schema.Team)
+@router.get("/teams/{team_id}",response_model=schema.Team, tags=["teams"])
 def find_team_by_id(team_id: int, database: Session = Depends(get_db)):
     team = crud.get_team_by_id(database, team_id)
     if team is None:
         raise HTTPException(status_code=404, detail="Team not found")
     return team
 
-@router.post("/teams",response_model=schema.Team)
+@router.post("/teams",response_model=schema.Team, tags=["teams"])
 def create_team(team: schema.TeamCreate, database: Session = Depends(get_db)):
     if validationUtils.is_valid_name(team.name) is False:
         raise HTTPException(status_code=400, detail="Team name is required")
     return crud.create_team(database, team)
 
-@router.patch("/teams/{team_id}",response_model=schema.Team)
+@router.patch("/teams/{team_id}",response_model=schema.Team, tags=["teams"])
 def update_team(team_id: int, team: schema.TeamUpdate, database: Session = Depends(get_db)):
     if validationUtils.is_valid_name(team.name) is False:
         raise HTTPException(status_code=400, detail="Team name is required")
@@ -39,7 +39,7 @@ def update_team(team_id: int, team: schema.TeamUpdate, database: Session = Depen
         raise HTTPException(status_code=404, detail="Team not found")
     return updated_team
 
-@router.delete("/teams/{team_id}",response_model=schema.Team)
+@router.delete("/teams/{team_id}",response_model=schema.Team, tags=["teams"])
 def delete_team(team_id: int, database: Session = Depends(get_db)):
     delete_team = crud.delete_team(database, team_id)
     if delete_team is None:
